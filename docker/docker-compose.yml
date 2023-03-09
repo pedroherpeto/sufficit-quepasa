@@ -1,0 +1,33 @@
+version: '3'
+
+secrets:
+  pgpassword:
+    external: true
+  signing_secret:
+    external: true
+
+services:
+
+  quepasa:
+    image: quepasa
+    container_name: "sufficit-quepasa-novo"
+    mem_limit: 4096M
+    env_file:
+      - ./.env
+    ports:
+      - 31000:31000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    volumes:
+      - ../src:/app
+    restart: always
+    stdin_open: true
+    tty: true
+    networks:
+      - quepasa_network_novo
+  
+networks:
+  quepasa_network_novo:
